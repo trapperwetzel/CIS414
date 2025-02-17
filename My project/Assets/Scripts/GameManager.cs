@@ -15,8 +15,15 @@ public class GameManager : MonoBehaviour
 
 
     // Methods
-
+    public void ResetScore()
+    {
+        playerScore = 0;
+    }
     
+    public void AddScore(float aScore)
+    {
+        playerScore += aScore;
+    }
 
     
 

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Trapper W
+// 02/16/2025
+
 public class BallScript : MonoBehaviour
 {
     protected Rigidbody rb;
@@ -9,12 +12,14 @@ public class BallScript : MonoBehaviour
     [SerializeField] protected float worldVelocity = 25;
 
     [SerializeField] protected Vector3 startForce = Vector3.one;
-    private void FixedUpdate()
+
+    [SerializeField] protected int damage = 1;
+    public void FixedUpdate()
     {
         LimitBallVellocity();
     }
 
-    private void OnEnable()
+    public void OnEnable()
     {
         rb = GetComponent<Rigidbody>();
         ApplyStartForce();
@@ -35,20 +40,23 @@ public class BallScript : MonoBehaviour
 
         nV3.x = Mathf.Clamp(hV3.x, -worldVelocity, worldVelocity);
         nV3.y = Mathf.Clamp(hV3.y, -worldVelocity, worldVelocity);
-        nV3.z = 0;
-
-
+        nV3.z = Mathf.Clamp(hV3.z, -worldVelocity, worldVelocity);
 
 
         rb.velocity = nV3;
 
-
-
-
-
-
     }
 
 
-    
+    public void OnCollisionEnter(Collision collision)
+    {
+        BreakableBrick bb = collision.gameObject.GetComponent<BreakableBrick>();
+        if (bb != null)
+        {
+            bb.Break(damage);
+        }
+
+
+    }
 }
+
